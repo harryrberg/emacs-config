@@ -1,114 +1,71 @@
 * Emacs Configuration
+Emacs Configuration
 This guide provides a comprehensive configuration file for setting up a personalized and efficient Emacs experience tailored for Windows 10 users. The configuration file covers performance optimization, package management, appearance customization, environment settings configuration, as well as the setup of Org mode and ChatGPT API integration.
+** Table of Contents
 
-## Table of Contents
+[[#installing-emacs-on-windows-10-using-chocolatey][Installing Emacs on Windows 10 using Chocolatey]]
+[[#setting-user-environment-variables][Setting User Environment Variables]]
+[[#configuring-emacs][Configuring Emacs]]
+[[#preamble][Preamble]]
+[[#environment][Environment]]
+[[#startup-performance][Startup Performance]]
+[[#package-management][Package Management]]
+[[#fullscreen][Fullscreen]]
+[[#org-mode][Org Mode]]
+[[#chatgpt-api-configuration][ChatGPT API Configuration]]
+[[#appearance][Appearance]]
+[[#apl][APL]]
+[[#runtime-performance][Runtime Performance]]
 
-1. [Installing Emacs on Windows 10 using Chocolatey](#installing-emacs-on-windows-10-using-chocolatey)
-2. [Setting User Environment Variables](#setting-user-environment-variables)
-3. [Configuring Emacs](#configuring-emacs)
+* 1. Installing Emacs on Windows 10 using Chocolatey
 
-## 1. Installing Emacs on Windows 10 using Chocolatey
+** a. Open a Command Prompt or PowerShell window with administrative privileges.
 
-a. Open a Command Prompt or PowerShell window with administrative privileges.
+** b. Enter the following command to install Chocolatey:
 
-b. Enter the following command to install Chocolatey:
-
-#+begin_src powershell
+#+BEGIN_SRC powershell
 @"%SystemRoot%\System32\WindowsPowerShell\v1.0\powershell.exe" -NoProfile -InputFormat None -ExecutionPolicy Bypass -Command "iex ((New-Object System.Net.WebClient).DownloadString('https://chocolatey.org/install.ps1'))" && SET "PATH=%PATH%;%ALLUSERSPROFILE%\chocolatey\bin"
-#+end_src
+#+END_SRC
 
-c. Enter the following command to install the latest version of Emacs:
+** c. Enter the following command to install the latest version of Emacs:
 
-#+begin_src powershell
+#+BEGIN_SRC powershell
 choco install emacs
-#+end_src
+#+END_SRC
 
-d. Verify that the installation was successful by entering the following command:
+** d. Verify that the installation was successful by entering the following command:
 
-#+begin_src powershell
+#+BEGIN_SRC powershell
 emacs --version
-#+end_src
+#+END_SRC
 
-## 2. Setting User Environment Variables
+** 2. Setting User Environment Variables
 
-a. Right-click on the **Computer** icon on the desktop or in the Start menu, and choose **Properties**.
+*** a. Right-click on the Computer icon on the desktop or in the Start menu, and choose Properties.
 
-b. Click on **Advanced system settings** in the left sidebar.
+*** b. Click on Advanced system settings in the left sidebar.
 
-c. In the **System Properties** window, go to the **Advanced** tab and click on the **Environment Variables** button.
+*** c. In the System Properties window, go to the Advanced tab and click on the Environment Variables button.
 
-d. In the **User variables** section, click on the **New** button.
+*** d. In the User variables section, click on the New button.
 
-e. Set the **Variable name** as `HOME` and the **Variable value** as `%USERPROFILE%`. Click **OK** to save the changes.
+*** e. Set the Variable name as HOME and the Variable value as %USERPROFILE%. Click OK to save the changes.
 
-f. Click on the **New** button again in the **User variables** section.
+*** f. Click on the New button again in the User variables section.
 
-g. Set the **Variable name** as `EMACS_SERVER_FILE` and the **Variable value** as `%USERPROFILE%\.emacs.d\server\server`. Click **OK** to save the changes.
+*** g. Set the Variable name as EMACS_SERVER_FILE and the Variable value as %USERPROFILE%\.emacs.d\server\server. Click OK to save the changes.
 
-h. Click **OK** to close the **Environment Variables** window and then click **OK** again to close the **System Properties** window.
+*** h. Click OK to close the Environment Variables window and then click OK again to close the System Properties window.
 
-## 3. Configuring Emacs
+** 3. Configuring Emacs
 
-a. Create a new Emacs configuration file (init.el) in the %USERPROFILE%\.emacs.d\ directory.
+*** a. Open the init.org file in Emacs.
 
-b. Customize the init.el file according to your preferences, following the guidance provided in the Improved Emacs Configuration Guide for Windows 10.
+*** b. Customize the init.org file according to your preferences, following the guidance provided in the Improved Emacs Configuration Guide for Windows 10.
 
-c. Save the init.el file, close it, and restart Emacs to apply the changes.
+*** c. Use the org-babel-tangle command to generate the init.el file. This command will extract the Emacs Lisp code blocks from the Org file and put them into the init.el file in the same directory.
 
-The configuration is organized into sections for each topic, with detailed comments explaining the purpose and use of each setting.
-
-* Index
-
-- [[#preamble][Preamble]]
-- [[#environment][Environment]]
-- [[#startup-performance][Startup Performance]]
-- [[#package-management][Package Management]]
-- [[#fullscreen][Fullscreen]]
-- [[#org-mode][Org Mode]]
-- [[#chatgpt-api-configuration][ChatGPT API Configuration]]
-- [[#appearance][Appearance]]
-- [[#apl][APL]]
-- [[#runtime-performance][Runtime Performance]]
-
-** Preamble
-
-This section defines a function that will automatically tangle the Emacs configuration file when it is saved.
-
-** Environment
-
-This section sets up environment variables and paths for the Emacs configuration.
-
-** Startup Performance
-
-This section sets a high `gc-cons-threshold` value to improve Emacs startup performance.
-
-** Package Management
-
-This section sets up `package.el` and `use-package` for package management and installs the necessary packages.
-
-** Fullscreen
-
-This section adds keybindings to toggle fullscreen mode and sets fullscreen as the default for all new frames.
-
-** Org Mode
-
-This section sets up various settings for Org mode, such as hiding leading stars and setting the default TODO keywords.
-
-** ChatGPT API Configuration
-
-This section sets up the Org-AI package to use the ChatGPT API for natural language processing tasks.
-
-** Appearance
-
-This section sets up the appearance of Emacs, such as the font, theme, and cursor color.
-
-** APL
-
-This section sets up the `dyalog-mode` package for working with APL and connects to a Dyalog APL interpreter.
-
-** Runtime Performance
-
-This section sets a lower `gc-cons-threshold` value to improve Emacs performance during runtime. 
+*** d. Save the init.org file and restart Emacs to apply the changes.
 
 * Preamble
   :PROPERTIES:
