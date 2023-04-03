@@ -1,124 +1,68 @@
 * Emacs Configuration
-Emacs Configuration
 This guide provides a comprehensive configuration file for setting up a personalized and efficient Emacs experience tailored for Windows 10 users. The configuration file covers performance optimization, package management, appearance customization, environment settings configuration, as well as the setup of Org mode and ChatGPT API integration.
-** Table of Contents
-
-[[#installing-emacs-on-windows-10-using-chocolatey][Installing Emacs on Windows 10 using Chocolatey]]
-[[#setting-user-environment-variables][Setting User Environment Variables]]
-[[#configuring-emacs][Configuring Emacs]]
-[[#preamble][Preamble]]
-[[#environment][Environment]]
-[[#startup-performance][Startup Performance]]
-[[#package-management][Package Management]]
-[[#fullscreen][Fullscreen]]
-[[#org-mode][Org Mode]]
-[[#chatgpt-api-configuration][ChatGPT API Configuration]]
-[[#appearance][Appearance]]
-[[#apl][APL]]
-[[#runtime-performance][Runtime Performance]]
-
-* 1. Installing Emacs on Windows 10 using Chocolatey
-
-** a. Open a Command Prompt or PowerShell window with administrative privileges.
-
-** b. Enter the following command to install Chocolatey:
-
+* Installing Emacs on Windows 10 using Chocolatey
+Open a Command Prompt or PowerShell window with administrative privileges.
+Enter the following command to install Chocolatey:
 #+BEGIN_SRC powershell
 @"%SystemRoot%\System32\WindowsPowerShell\v1.0\powershell.exe" -NoProfile -InputFormat None -ExecutionPolicy Bypass -Command "iex ((New-Object System.Net.WebClient).DownloadString('https://chocolatey.org/install.ps1'))" && SET "PATH=%PATH%;%ALLUSERSPROFILE%\chocolatey\bin"
 #+END_SRC
-
-** c. Enter the following command to install the latest version of Emacs:
-
+Enter the following command to install the latest version of Emacs:
 #+BEGIN_SRC powershell
 choco install emacs
 #+END_SRC
-
-** d. Verify that the installation was successful by entering the following command:
-
+Verify that the installation was successful by entering the following command:
 #+BEGIN_SRC powershell
 emacs --version
 #+END_SRC
-
-** 2. Setting User Environment Variables
-
-*** a. Right-click on the Computer icon on the desktop or in the Start menu, and choose Properties.
-
-*** b. Click on Advanced system settings in the left sidebar.
-
-*** c. In the System Properties window, go to the Advanced tab and click on the Environment Variables button.
-
-*** d. In the User variables section, click on the New button.
-
-*** e. Set the Variable name as HOME and the Variable value as %USERPROFILE%. Click OK to save the changes.
-
-*** f. Click on the New button again in the User variables section.
-
-*** g. Set the Variable name as EMACS_SERVER_FILE and the Variable value as %USERPROFILE%\.emacs.d\server\server. Click OK to save the changes.
-
-*** h. Click OK to close the Environment Variables window and then click OK again to close the System Properties window.
-
-** 3. Configuring Emacs
-
-*** a. Open the init.org file in Emacs.
-
-*** b. Customize the init.org file according to your preferences, following the guidance provided in the Improved Emacs Configuration Guide for Windows 10.
-
-*** c. Use the org-babel-tangle command to generate the init.el file. This command will extract the Emacs Lisp code blocks from the Org file and put them into the init.el file in the same directory.
-
-*** d. Save the init.org file and restart Emacs to apply the changes.
-
+* Setting User Environment Variables
+Right-click on the Computer icon on the desktop or in the Start menu, and choose Properties.
+Click on Advanced system settings in the left sidebar.
+In the System Properties window, go to the Advanced tab and click on the Environment Variables button.
+In the User variables section, click on the New button.
+Set the Variable name as HOME and the Variable value as %USERPROFILE%. Click OK to save the changes.
+Click on the New button again in the User variables section.
+Set the Variable name as EMACS_SERVER_FILE and the Variable value as %USERPROFILE%\.emacs.d\server\server. Click OK to save the changes.
+Click OK to close the Environment Variables window and then click OK again to close the System Properties window.
+* Configuring Emacs
+Open the init.org file in Emacs.
+Customize the init.org file according to your preferences.
+Use the **org-babel-tangle** command to generate the init.el file. This command will extract the Emacs Lisp code blocks from the Org file and put them into the init.el file in the same directory.
+Restart Emacs to apply the changes.
 * Preamble
   :PROPERTIES:
   :CUSTOM_ID: preamble
   :END:
-
   This section configures the automatic tangling of the init.org file upon saving, ensuring that the init.el file is always up-to-date with the latest changes.
-
 ** Tangle init.org upon saving
-
    When the init.org file is saved, this function will automatically tangle it, creating or updating the init.el file accordingly.
-
    #+BEGIN_SRC emacs-lisp :tangle yes
      (defun tangle-init-file ()
        (when (equal (buffer-file-name) (expand-file-name "~/.emacs.d/init.org"))
          (org-babel-tangle)))
      (add-hook 'after-save-hook 'tangle-init-file)
    #+END_SRC
-   
 * Performance
   :PROPERTIES:
   :CUSTOM_ID: performance
   :END:
-
   This section optimizes Emacs startup and runtime performance by adjusting garbage collection settings.
-
 ** Optimize startup performance
-
    Set the garbage collection threshold to its highest value during startup to speed up the process.
-
    #+BEGIN_SRC emacs-lisp :tangle yes
      (setq gc-cons-threshold most-positive-fixnum)
    #+END_SRC
-
 ** Optimize runtime performance
-
    Restore the garbage collection threshold to a more reasonable value after Emacs has started to optimize runtime performance.
-
    #+BEGIN_SRC emacs-lisp :tangle yes
      (add-hook 'emacs-startup-hook (lambda () (setq gc-cons-threshold 16777216)))
    #+END_SRC
-   
 * Package Management
   :PROPERTIES:
   :CUSTOM_ID: package_management
   :END:
-
   This section sets up package.el and use-package for managing Emacs packages. It configures package repositories, initializes the package system, and ensures that use-package is installed.
-
 ** Setup package.el and use-package
-
    Configure package.el by setting the package repositories, initializing the package system, and ensuring that Org Mode and use-package are installed.
-
    #+BEGIN_SRC emacs-lisp :tangle yes
      (require 'package)
      (setq package-archives '(("melpa" . "https://melpa.org/packages/")
@@ -141,39 +85,26 @@ emacs --version
   :PROPERTIES:
   :CUSTOM_ID: appearance
   :END:
-
   This section configures the appearance of Emacs, including disabling toolbars, scrollbars, and menubars, as well as customizing the startup screen, font, and theme.
-
 ** Disable toolbars, scrollbars, and menubars
-
    Disable the tool bar (icons), scroll bar, and menu bar.
-
    #+BEGIN_SRC emacs-lisp :tangle yes
      (tool-bar-mode -1)
      (scroll-bar-mode -1)
      (menu-bar-mode -1)
    #+END_SRC
-
 ** Inhibit startup screen
-
    Do not show the startup screen.
-
    #+BEGIN_SRC emacs-lisp :tangle yes
      (setq inhibit-startup-screen t)
    #+END_SRC
-
 ** Set initial scratch buffer message to nil
-
    Remove the default message in the *scratch* buffer.
-
    #+BEGIN_SRC emacs-lisp :tangle yes
      (setq initial-scratch-message nil)
    #+END_SRC
-
 ** Set font
-
    Set the default font to "JetBrains Mono" with size 15.
-
    #+BEGIN_SRC emacs-lisp :tangle yes
      (defun my/set-frame-font ()
        (set-frame-font "JetBrains Mono-15" nil t))
@@ -183,11 +114,8 @@ emacs --version
                  (my/set-frame-font)))
      (my/set-frame-font)
    #+END_SRC
-
 ** Theme
-
    Configure and load the 'modus-operandi' theme, with slanted and bold constructs enabled.
-
    #+BEGIN_SRC emacs-lisp :tangle yes
      (use-package modus-themes
        :ensure t
@@ -199,28 +127,19 @@ emacs --version
        ;; OR (modus-vivendi)
        )
    #+END_SRC
-   
 * Environment
   :PROPERTIES:
   :CUSTOM_ID: environment
   :END:
-
   This section configures the environment settings for Emacs, such as the initial working directory and fullscreen behavior.
-
 ** Set initial working directory
-
    Change the initial working directory to the user's home directory.
-
    #+BEGIN_SRC emacs-lisp :tangle yes
      (cd "~")
    #+END_SRC
-
 ** Fullscreen
-
 *** Function to toggle fullscreen
-
    Define a function that toggles the fullscreen state of the Emacs window.
-
    #+BEGIN_SRC emacs-lisp :tangle yes
      (defun toggle-fullscreen ()
        (interactive)
@@ -228,44 +147,30 @@ emacs --version
            (set-frame-parameter nil 'fullscreen nil)
          (set-frame-parameter nil 'fullscreen 'fullboth)))
    #+END_SRC
-
 *** Bind F11 key to toggle fullscreen
-
    Set the F11 key to call the `toggle-fullscreen` function.
-
    #+BEGIN_SRC emacs-lisp :tangle yes
      (global-set-key [f11] 'toggle-fullscreen)
    #+END_SRC
-
 *** Set initial and future frames to fullscreen
-
    Configure Emacs to start in fullscreen mode and apply fullscreen settings to future frames.
-
    #+BEGIN_SRC emacs-lisp :tangle yes
      (add-to-list 'default-frame-alist '(fullscreen . fullboth))
    #+END_SRC
-
 *** Set fullscreen for new frames created by the daemon
-
    Ensure that new frames created by the Emacs daemon start in fullscreen mode.
-
    #+BEGIN_SRC emacs-lisp :tangle yes
      (defun set-fullscreen-for-new-frame (frame)
        (set-frame-parameter frame 'fullscreen 'fullboth))
-
      (add-hook 'after-make-frame-functions #'set-fullscreen-for-new-frame)
    #+END_SRC
 * Org Mode
   :PROPERTIES:
   :CUSTOM_ID: org_mode
   :END:
-
   This section configures Org Mode settings and appearance, such as hiding leading stars, setting agenda files, and defining TODO keywords.
-
 ** Load Org Mode and set up basic settings
-
    Load Org Mode and configure basic settings, such as hiding leading stars, setting agenda files, and defining TODO keywords.
-
    #+BEGIN_SRC emacs-lisp :tangle yes
      (use-package org
        :config
@@ -273,9 +178,7 @@ emacs --version
              org-agenda-files '("~/org")
              org-todo-keywords '((sequence "TODO" "IN-PROGRESS" "WAITING" "DONE"))))
    #+END_SRC
-
 ** Load Org Tempo for structure templates
-
 ;; Require org-tempo and add custom Org Tempo template
 #+BEGIN_SRC emacs-lisp :tangle yes
 (require 'org-tempo)
@@ -286,28 +189,24 @@ emacs --version
   (let ((content (org-tempo--expand-structure-template '("se" . "src emacs-lisp :tangle yes"))))
     (insert content)
     (search-backward "#+END_SRC")))
-
 (with-eval-after-load 'org-tempo
   (add-to-list 'org-structure-template-alist '("se" . "src emacs-lisp :tangle yes")))
 #+END_SRC
-* org-ai Configuration
+* Org-ai Configuration
   :PROPERTIES:
   :CUSTOM_ID: org_ai_configuration
   :END:
-  
 This section of the Emacs configuration sets up the org-ai package to enable GPT-4 integration with Emacs' Org mode. It loads the API token from an external file (secret.el) and configures org-ai settings. Additionally, it installs AI snippets for Yasnippet if you use it.
-
 ** Usage
-1. Create a file named "secret.el" in your Emacs configuration directory (~/.emacs.d/).
-2. Add the following line to "secret.el", replacing "your_api_key_here" with your actual OpenAI API key:
-   (setq my-openai-api-token "your_api_key_here")
-3. Add the provided org-ai configuration code to your Emacs configuration file.
-
+Create a file named "secret.el" in your Emacs configuration directory (~/.emacs.d/).
+Add the following line to "secret.el", replacing "your_api_key_here" with your actual OpenAI API key:
+#+begin_src emacs-lisp :tangle no
+(setq my-openai-api-token "your_api_key_here")
+#+end_src
+Add the provided org-ai configuration code to your Emacs configuration file.
 ** Features
-- Enables GPT-4 integration with Org mode for AI-assisted text generation.
-- Automatically installs AI snippets for Yasnippet (optional).
-
-;; org-ai configuration
+Enables GPT-4 integration with Org mode for AI-assisted text generation.
+Automatically installs AI snippets for Yasnippet (optional).
 #+BEGIN_SRC emacs-lisp :tangle yes
 (use-package org-ai
   :ensure
@@ -319,7 +218,7 @@ This section of the Emacs configuration sets up the org-ai package to enable GPT
   (org-ai-openai-api-token my-openai-api-token)
   :config
   ;; Set the default chat model to GPT-4 (replace "gpt-4" with the actual GPT-4 model name)
-  (setq org-ai-default-chat-model "gpt-4-32k-0314")
+  (setq org-ai-default-chat-model "gpt-4")
   ;; if you are using yasnippet and want `ai` snippets
   (org-ai-install-yasnippets))
 #+END_SRC
