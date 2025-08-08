@@ -209,18 +209,21 @@ Enables GPT-4 integration with Org mode for AI-assisted text generation.
 Automatically installs AI snippets for Yasnippet (optional).
 #+BEGIN_SRC emacs-lisp :tangle yes
 (use-package org-ai
-  :ensure
+  :ensure t
   :commands (org-ai-mode)
   :init
-  ;; Load secret.el
-  (load-file "~/.emacs.d/secret.el")
+  ;; Load secret.el if it exists to avoid startup errors
+  (let ((secret-file "~/.emacs.d/secret.el"))
+    (when (file-exists-p secret-file)
+      (load-file secret-file)))
   :custom
   (org-ai-openai-api-token my-openai-api-token)
   :config
   ;; Set the default chat model to GPT-4 (replace "gpt-4" with the actual GPT-4 model name)
   (setq org-ai-default-chat-model "gpt-4")
-  ;; if you are using yasnippet and want `ai` snippets
-  (org-ai-install-yasnippets))
+  ;; Install `ai` snippets only when Yasnippet is available
+  (when (featurep 'yasnippet)
+    (org-ai-install-yasnippets)))
 #+END_SRC
 
 
