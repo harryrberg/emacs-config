@@ -67,8 +67,11 @@ This procedure creates a simple Emacs Client shortcut pinned to the taskbar.
 1. Drag the configured shortcut from the desktop to your taskbar.
 2. You can now launch a new Emacs frame from the pinned icon at any time.
 
-* Minimal bootstrap: =~/.emacs.d/init.el=
-Place the following in your =init.el=. It adds a simple after-save hook that tangles =~/.emacs.d/init.org= whenever you save it.
+* Introduction
+This setup allows you to store all your Emacs configuration in a single `init.org` file. A minimal `init.el` ensures that every time you save `init.org`, the `init.el` file is regenerated automatically.
+
+* Step 1: Create the Bootstrap `init.el`
+Create a file at `~/.emacs.d/init.el` containing the following:
 
 #+BEGIN_SRC emacs-lisp
 (defun tangle-init-file ()
@@ -77,16 +80,35 @@ Place the following in your =init.el=. It adds a simple after-save hook that tan
 (add-hook 'after-save-hook 'tangle-init-file)
 #+END_SRC
 
-* Org config file: =~/.emacs.d/init.org=
-Create this Org file with the same tangle-on-save snippet inside a source block so it is preserved when tangling.
+This hook checks if the file being saved is `init.org` and tangles it into `init.el`.
 
-#+BEGIN_SRC emacs-lisp
+* Step 2: Create `init.org`
+Place your main configuration in `~/.emacs.d/init.org`. Any Emacs Lisp block you want included in `init.el` must have the `:tangle yes` header.
+
+Example minimal `init.org`:
+
+#+BEGIN_SRC org
+,* Preamble
+This section ensures `init.el` is regenerated whenever this file is saved.
+
+,** Auto-Tangle on Save
+#+BEGIN_SRC emacs-lisp :tangle yes
 (defun tangle-init-file ()
   (when (equal (buffer-file-name) (expand-file-name "~/.emacs.d/init.org"))
     (org-babel-tangle)))
 (add-hook 'after-save-hook 'tangle-init-file)
 #+END_SRC
+#+END_SRC
 
+* Workflow
+1. Edit your configuration inside `init.org`.
+2. Save the file.
+3. `init.el` updates automatically.
+
+* Tips
+- Use `:tangle yes` for blocks you want in `init.el`.
+- Blocks without `:tangle yes` are ignored during tangling.
+- You can still tangle manually with `M-x org-babel-tangle` if needed.
 * Performance Tweaks
 Adjusting garbage collection thresholds can speed up startup and keep runtime smooth.
 
