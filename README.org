@@ -1,6 +1,9 @@
 * Setting Environment Variables and Updating PATH
 Properly setting environment variables ensures Emacs knows where to find your configuration, can connect to the server for *EMACSCLIENT*, and (optionally) can be run from any terminal without specifying the full path.
 
+* Setting Environment Variables and Updating PATH
+Properly setting environment variables ensures Emacs knows where to find your configuration, can connect to the server for *EMACSCLIENT*, and (optionally) can be run from any terminal without specifying the full path.
+
 ** 1. Setting Essential Variables (Required)
 These must be set for a functional setup:
 1. *HOME* — Tells Emacs your home directory location.
@@ -19,9 +22,9 @@ Use these for customization, locale settings, or improving workflow:
 - *TMPDIR* / *TEMP* / *TMP* — Custom temporary directory.
   - Example: =D:\\temp=
 - *SHELL* — Default shell for Emacs.
-  - Example: =%SYSTEMDRIVE%\\msys64\\usr\\bin\\bash.exe=
+  - Example: =C:\\msys64\\usr\\bin\\bash.exe=
 - *PATH* — Add MSYS2 *mingw64* bin directory so Emacs is accessible from PowerShell or CMD.
-  - Example: =%SYSTEMDRIVE%\\msys64\\mingw64\\bin=
+  - Example: =C:\\msys64\\mingw64\\bin=
 
 ** 3. Manual Setup Instructions in Windows
 These steps work on any Windows 10 or 11 system:
@@ -35,7 +38,7 @@ These steps work on any Windows 10 or 11 system:
    - Value: =%USERPROFILE%\\.emacs.d\\server\\server=
 5. (Optional) Repeat for any variables from *Section 2* you wish to configure.
 6. (Optional) To add Emacs to PATH:
-   - Select the *Path* variable under *User variables* → *Edit* → *New* → Enter =%SYSTEMDRIVE%\\msys64\\mingw64\\bin=
+   - Select the *Path* variable under *User variables* → *Edit* → *New* → Enter =C:\\msys64\\mingw64\\bin=
 7. Click *OK* on all windows to save.
 8. Restart all terminals (PowerShell, CMD) for changes to take effect.
 
