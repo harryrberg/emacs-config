@@ -8,70 +8,77 @@ This guide explains how to install a full-featured Emacs build (GUI + native com
 
 *Steps:*
 
-1. Install *MSYS2* from the official site. Choose a short, ASCII-only path like `C:\msys64` to avoid path length issues.
-2. Launch the *MSYS2 MINGW64* terminal (not MSYS or UCRT64). Run:
+1. Download and install *MSYS2* from the official site. Use a simple path like `C:\msys64` to avoid path length issues.
+2. Open the *MSYS2 MINGW64* terminal (not MSYS or UCRT64) and update the system:
 #+BEGIN_SRC bash
 pacman -Syu
 #+END_SRC
-Restart the terminal if prompted and repeat until the system is fully updated.
-3. Optional but recommended: Install the native Windows toolchain:
+If prompted, restart the terminal and re-run the update until no further updates are available.
+3. (Optional but recommended) Install the native Windows toolchain:
 #+BEGIN_SRC bash
 pacman -S --needed base-devel mingw-w64-x86_64-toolchain
 #+END_SRC
-4. Install Emacs and the native compilation library:
+4. Install Emacs with native compilation support:
 #+BEGIN_SRC bash
 pacman -S mingw-w64-x86_64-emacs mingw-w64-x86_64-libgccjit
 #+END_SRC
-This installs Emacs with GUI support and `libgccjit` for native compilation.
-5. Add `C:\msys64\mingw64\bin` to your Windows PATH (via *System Properties → Environment Variables* or PowerShell).
-6. Verify installation:
+This installs a prebuilt Emacs with GUI and `libgccjit` for native compilation.
+5. Verify installation:
 #+BEGIN_SRC powershell
 emacs --version
 #+END_SRC
-Inside Emacs, evaluate:
+Inside Emacs, check native compilation:
 #+BEGIN_SRC elisp
 (and (fboundp 'native-comp-available-p)
      (native-comp-available-p))
 #+END_SRC
-A non-nil result confirms native compilation is active.
+A non-nil result means native compilation is active.
 
 *Why this method?*
-- Provides a ready-to-use Emacs with native compilation without manual building.
-- Includes `libgccjit` for native compilation, improving Emacs performance.
-- More stable than UCRT64 builds, avoiding known issues with broken executables.
+- Prebuilt Emacs with native compilation — no manual build required.
+- Includes `libgccjit` for faster performance.
+- More stable than UCRT64 builds.
 
 ---
-You can now enjoy a faster, fully-featured Emacs environment on Windows with reliable package updates via MSYS2.
+You now have a fast, fully-featured Emacs on Windows with reliable updates via MSYS2.
 
-* Setting Environment Variables
-We’ll define some environment variables so Emacs knows where your home directory is and where the server file lives.
+*Setting Environment Variables and Updating PATH*
+These steps configure Emacs to recognize your home directory, specify the server file location for `emacsclient`, and allow Emacs to be run from PowerShell or CMD.
 
-1. Right-click *This PC* (or *Computer*) and select *Properties*.  
-2. Click *Advanced system settings* → *Environment Variables*.  
-3. Under *User variables*, click *New*:  
-   - Name: `HOME`  
-   - Value: `%USERPROFILE%`  
-4. Click *New* again:  
-   - Name: `EMACS_SERVER_FILE`  
-   - Value: `%USERPROFILE%\.emacs.d\server\server`  
-5. Save and close all dialogs.
+**Create the server directory (if missing)**
+#+BEGIN_SRC powershell
+$serverDir = Join-Path $env:USERPROFILE ".emacs.d\server"
+New-Item -ItemType Directory -Path $serverDir -Force | Out-Null
+#+END_SRC
 
+**Set HOME (User scope)**
+#+BEGIN_SRC powershell
+[Environment]::SetEnvironmentVariable('HOME', $env:USERPROFILE, 'User')
+#+END_SRC
 
----
+**Set EMACS_SERVER_FILE (User scope)**
+#+BEGIN_SRC powershell
+$serverFile = Join-Path $env:USERPROFILE ".emacs.d\server\server"
+[Environment]::SetEnvironmentVariable('EMACS_SERVER_FILE', $serverFile, 'User')
+#+END_SRC
 
+**Add MSYS2 MINGW64 bin to PATH (User scope)**
+#+BEGIN_SRC powershell
+$msysBin = "C:\\msys64\\mingw64\\bin"
+$currentPath = [Environment]::GetEnvironmentVariable('Path', 'User')
+if (-not $currentPath) { $currentPath = '' }
+if ($currentPath -notmatch [regex]::Escape($msysBin)) {
+    $newPath = if ($currentPath.Trim().Length -gt 0) {
+        $currentPath.TrimEnd(';') + ';' + $msysBin
+    } else {
+        $msysBin
+    }
+    [Environment]::SetEnvironmentVariable('Path', $newPath, 'User')
+}
+Write-Output "User PATH updated. Restart terminals to apply changes."
+#+END_SRC
 
-1. Right-click *This PC* (or *Computer*) and select *Properties*.
-2. Click *Advanced system settings* → *Environment Variables*.
-3. Under *User variables*, click *New*:
-   - Name: `HOME`
-   - Value: `%USERPROFILE%`
-4. Click *New* again:
-   - Name: `EMACS_SERVER_FILE`
-   - Value: `%USERPROFILE%\\.emacs.d\\server\\server`
-   This tells Emacs where to store the file used for `emacsclient` connections.
-5. Save and close all dialogs.
-
-
+After running these commands, restart PowerShell or CMD so the environment variables and PATH changes take effect.
 ---
 
 * Configuring Emacs
