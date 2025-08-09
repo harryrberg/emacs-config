@@ -47,20 +47,27 @@ Why this method?
 
 ---
 
-*Setting Environment Variables and Updating PATH*
-These steps configure Emacs to recognize your home directory, specify the server file location for `emacsclient`, and optionally add Emacs to your PATH.
+* Setting Environment Variables and Updating PATH
+These steps configure Emacs to recognize your home directory, specify the server file location for emacsclient, and optionally add Emacs to your PATH.
 
-**Essential Variables:**
-1. `HOME` — `%USERPROFILE%` — Required.
-2. `EMACS_SERVER_FILE` — `%USERPROFILE%\\.emacs.d\\server\\server` — Required if using `emacsclient`.
+** Essential Variables
+- HOME — %USERPROFILE% — Required.
+- EMACS_SERVER_FILE — %USERPROFILE%\\.emacs.d\\server\\server — Required if using emacsclient.
 
-**Optional Variables:**
-3. `EMACSDIR` — Custom `.emacs.d` location.
-4. `LANG` / `LC_ALL` — Set locale (e.g., `en_US.UTF-8`).
-5. `EMACSLOADPATH` — Additional Lisp search paths.
-6. `TMPDIR` / `TEMP` / `TMP` — Custom temp directory.
-7. `SHELL` — Default shell for Emacs (e.g., `C:\msys64\usr\bin\bash.exe`).
-8. `PATH` — Add `C:\msys64\mingw64\bin` if you want Emacs in PowerShell or CMD.
+** Optional Variables
+- EMACSDIR — Custom .emacs.d location.
+- LANG / LC_ALL — Set locale (e.g., en_US.UTF-8).
+- EMACSLOADPATH — Additional Lisp search paths.
+- TMPDIR / TEMP / TMP — Custom temp directory.
+- SHELL — Default shell for Emacs (e.g., C:\msys64\usr\bin\bash.exe).
+- PATH — Add C:\msys64\mingw64\bin if you want Emacs in PowerShell or CMD.
+
+** To Set Manually in Windows
+1. Right-click *This PC* → *Properties*.
+2. Click *Advanced system settings* → *Environment Variables*.
+3. For each variable above, click *New* (User scope).
+4. For PATH: Select it, click *Edit*, then add a new entry for C:\msys64\mingw64\bin.
+5. Restart PowerShell or CMD after changes.
 
 ---
 **To set manually in Windows:**
