@@ -42,38 +42,32 @@ These steps work on any Windows 10 or 11 system:
 7. Click *OK* on all windows to save.
 8. Restart all terminals (PowerShell, CMD) for changes to take effect.
 
-* Starting Emacs with Server Mode at Login and Creating a Taskbar Pin
+* Creating a Taskbar Shortcut for Emacs Client
 
-Once your environment variables are set, you can configure Emacs to start automatically with the server enabled, allowing you to connect quickly with *emacsclient*.
+This procedure creates a simple Emacs Client shortcut pinned to the taskbar, using the settings from your screenshot.
 
-** 1. Create a Startup Shortcut for Emacs Server
-1. Locate your Emacs executable. For MSYS2 MINGW64 installs, it is usually:
-   =C:\msys64\mingw64\bin\runemacs.exe=
-2. Right-click *runemacs.exe* → *Create shortcut*.
-3. Right-click the shortcut → *Properties*.
-4. In the *Target* field, append the server start command:
-   =C:\msys64\mingw64\bin\runemacs.exe --daemon=
-5. (Optional) Change the *Start in* field to =%USERPROFILE%=.
-6. Click *OK* to save changes.
-
-** 2. Add the Shortcut to Windows Startup
-1. Press *Win + R*, type =shell:startup=, and press *Enter*.
-2. Move the Emacs server shortcut into this folder.
-   - This ensures Emacs starts in server mode whenever you log in.
-
-** 3. Pin Emacs Client to the Taskbar for Quick Access
-1. Navigate to the same Emacs install directory.
+** 1. Create the Shortcut
+1. Navigate to your Emacs installation folder (MSYS2 MINGW64):
+   =C:\msys64\mingw64\bin=
 2. Right-click *emacsclientw.exe* → *Create shortcut*.
 3. Move the shortcut to your desktop.
-4. Right-click the shortcut → *Properties*.
-5. In *Target*, set:
-   =C:\msys64\mingw64\bin\emacsclientw.exe -n=
-   - The *-n* option avoids blocking the terminal.
-6. Click *OK*, then drag this shortcut to the taskbar to pin it.
 
-** 4. Usage
-- On startup, the Emacs server will be running in the background.
-- Click the pinned *Emacs Client* icon to instantly open files in the running Emacs session.
+** 2. Configure the Shortcut Properties
+1. Right-click the new shortcut → *Properties*.
+2. In the *Target* field, set:
+   =C:\msys64\mingw64\bin\emacsclientw.exe -n -c -a ""=
+   - *-n* → Do not wait for the buffer to close.
+   - *-c* → Create a new frame.
+   - *-a ""* → Automatically start the server if it is not running.
+3. In the *Start in* field, enter:
+   =%USERPROFILE%=
+4. (Optional) Click *Change Icon* to choose an Emacs icon from *runemacs.exe*.
+5. Click *OK* to save changes.
+
+** 3. Pin to Taskbar
+1. Drag the configured shortcut from the desktop to your taskbar.
+2. You can now launch a new Emacs frame from the pinned icon at any time.
+
 
 * Configuring Emacs
 Open `init.org` in Emacs, customize as you wish, and run `org-babel-tangle` to produce `init.el`. This extracts all Emacs Lisp code blocks into `init.el`. Restart Emacs to activate the changes.
