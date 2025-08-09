@@ -61,6 +61,7 @@ This procedure creates a simple Emacs Client shortcut pinned to the taskbar.
 3. In the *Start in* field, enter:
    =%USERPROFILE%=
 4. Click *OK* to save changes.
+5. (Optional) Rename the shortcut to **Emacs**.
 
 ** 3. Pin to Taskbar
 1. Drag the configured shortcut from the desktop to your taskbar.
