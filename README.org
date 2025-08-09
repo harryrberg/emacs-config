@@ -1,23 +1,22 @@
 * Installing Emacs with Native Compilation via MSYS2 (MINGW64)
 
-This guide explains how to install a full-featured Emacs build (GUI + native compilation support) on Windows using **MSYS2** in the **MINGW64** environment.
+This guide explains how to install a full-featured Emacs build (GUI + native compilation support) on Windows using *MSYS2* in the *MINGW64* environment.
 
-**Prerequisites:**
-
+*Prerequisites:*
 - Windows 10 or 11 (64-bit)
 - Administrator access (recommended for editing the system PATH)
 
-**Steps:**
+*Steps:*
 
 | Step | Description |
 |------|-------------|
-| 1 | Install **MSYS2** from the official site. Choose a short, ASCII-only path like `C:\msys64` to avoid path length issues. |
-| 2 | Launch the **MSYS2 MINGW64** terminal (not MSYS or UCRT64). Run: |
+| 1 | Install *MSYS2* from the official site. Choose a short, ASCII-only path like `C:\msys64` to avoid path length issues. |
+| 2 | Launch the *MSYS2 MINGW64* terminal (not MSYS or UCRT64). Run: |
 #+BEGIN_SRC bash
 pacman -Syu
 #+END_SRC
 Restart the terminal if prompted and repeat until the system is fully updated. |
-| 3 | *Optional but recommended*: Install the native Windows toolchain: |
+| 3 | Optional but recommended: Install the native Windows toolchain: |
 #+BEGIN_SRC bash
 pacman -S --needed base-devel mingw-w64-x86_64-toolchain
 #+END_SRC |
@@ -38,11 +37,10 @@ Inside Emacs, evaluate:
 #+END_SRC
 A non-nil result confirms native compilation is active. |
 
-**Why this method?**
+*Why this method?*
 - Installs directly from MSYS2’s MINGW64 repository — no manual building required.
 - Includes `libgccjit` for native compilation, improving Emacs performance.
 - More stable than UCRT64 builds, avoiding known issues with broken executables.
-
 
 * Setting Environment Variables
 We’ll define some environment variables so Emacs knows where your home directory is and where the server file lives.
