@@ -36,7 +36,7 @@ Inside Emacs, evaluate:
 A non-nil result confirms native compilation is active.
 
 *Why this method?*
-- Installs directly from MSYS2’s MINGW64 repository — no manual building required.
+- Provides a ready-to-use Emacs with native compilation without manual building.
 - Includes `libgccjit` for native compilation, improving Emacs performance.
 - More stable than UCRT64 builds, avoiding known issues with broken executables.
 
