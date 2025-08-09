@@ -67,14 +67,18 @@ This procedure creates a simple Emacs Client shortcut pinned to the taskbar.
 1. Drag the configured shortcut from the desktop to your taskbar.
 2. You can now launch a new Emacs frame from the pinned icon at any time.
 
-* Configuring Emacs
-Open `init.org` in Emacs, customize as you wish, and run `org-babel-tangle` to produce `init.el`. This extracts all Emacs Lisp code blocks into `init.el`. Restart Emacs to activate the changes.
+* Minimal bootstrap: =~/.emacs.d/init.el=
+Place the following in your =init.el=. It adds a simple after-save hook that tangles =~/.emacs.d/init.org= whenever you save it.
 
-* Preamble
-Automatically regenerate `init.el` whenever you save `init.org`, ensuring your setup stays in sync.
+#+BEGIN_SRC emacs-lisp
+(defun tangle-init-file ()
+  (when (equal (buffer-file-name) (expand-file-name "~/.emacs.d/init.org"))
+    (org-babel-tangle)))
+(add-hook 'after-save-hook 'tangle-init-file)
+#+END_SRC
 
-** Auto-tangle init.org on save
-This function checks if you’re editing `~/.emacs.d/init.org` and tangles it on save.
+* Org config file: =~/.emacs.d/init.org=
+Create this Org file with the same tangle-on-save snippet inside a source block so it is preserved when tangling.
 
 #+BEGIN_SRC emacs-lisp
 (defun tangle-init-file ()
