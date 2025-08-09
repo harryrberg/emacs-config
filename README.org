@@ -44,7 +44,7 @@ These steps work on any Windows 10 or 11 system:
 
 * Creating a Taskbar Shortcut for Emacs Client
 
-This procedure creates a simple Emacs Client shortcut pinned to the taskbar, using the settings from your screenshot.
+This procedure creates a simple Emacs Client shortcut pinned to the taskbar.
 
 ** 1. Create the Shortcut
 1. Navigate to your Emacs installation folder (MSYS2 MINGW64):
