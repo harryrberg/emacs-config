@@ -46,39 +46,47 @@ Why this method?
 - More stable than UCRT64 builds.
 
 ---
+
 * Setting Environment Variables and Updating PATH
-This section explains how to set up environment variables so Emacs can locate your configuration, connect to the server when using emacsclient, and optionally run from any terminal.
+Properly setting environment variables ensures Emacs knows where to find your configuration, can connect to the server for *emacsclient*, and (optionally) can be run from any terminal without specifying the full path.
 
-** 1. Essential Variables
-1. HOME — Points Emacs to your home directory.
-   - Value: %USERPROFILE%
-   - Required: Yes
-2. EMACS_SERVER_FILE — Path to the Emacs server file used by emacsclient.
-   - Value: %USERPROFILE%\\.emacs.d\\server\\server
-   - Required: Yes (if using emacsclient)
+** 1. Setting Essential Variables (Required)
+These must be set for a functional setup:
+1. *HOME* — Tells Emacs your home directory location.
+   - Value: =%USERPROFILE%=
+2. *EMACS_SERVER_FILE* — Path to the Emacs server file, required if using *emacsclient*.
+   - Value: =%USERPROFILE%\\.emacs.d\\server\\server=
 
-** 2. Optional Variables
-- EMACSDIR — Custom .emacs.d location.
-- LANG / LC_ALL — Locale setting (e.g., en_US.UTF-8).
-- EMACSLOADPATH — Additional Lisp search paths.
-- TMPDIR / TEMP / TMP — Custom temporary directory.
-- SHELL — Default shell for Emacs (e.g., %SystemDrive%\\msys64\\usr\\bin\\bash.exe).
-- PATH — Add %SystemDrive%\\msys64\\mingw64\\bin if you want to run Emacs from PowerShell or CMD.
+** 2. Setting Optional Variables (Recommended in Certain Cases)
+Use these for customization, locale settings, or improving workflow:
+- *EMACSDIR* — Custom directory for your Emacs configuration.
+  - Example: =D:\\Configs\\emacs.d=
+- *LANG* / *LC_ALL* — Set locale and encoding.
+  - Example: =en_US.UTF-8=
+- *EMACSLOADPATH* — Add extra directories for Emacs Lisp files.
+  - Example: =D:\\emacs-libs;E:\\more-libs=
+- *TMPDIR* / *TEMP* / *TMP* — Custom temporary directory.
+  - Example: =D:\\temp=
+- *SHELL* — Default shell for Emacs.
+  - Example: =%SystemDrive%\\msys64\\usr\\bin\\bash.exe=
+- *PATH* — Add MSYS2 *mingw64* bin directory so Emacs is accessible from PowerShell or CMD.
+  - Example: =%SystemDrive%\\msys64\\mingw64\\bin=
 
-** 3. Setting Variables Manually in Windows
-These instructions apply to any Windows system:
-1. Open the Start Menu, search for *Environment Variables*, and select *Edit the system environment variables*.
+** 3. Manual Setup Instructions in Windows
+These steps work on any Windows 10 or 11 system:
+1. Open the Start Menu → Search for *Environment Variables* → Select *Edit the system environment variables*.
 2. In the *System Properties* window, click *Environment Variables*.
-3. Under *User variables*, click *New* and create:
+3. Under *User variables*, click *New* and set:
    - Name: HOME
-   - Value: %USERPROFILE%
-4. Click *New* again and create:
+   - Value: =%USERPROFILE%=
+4. Click *New* again and set:
    - Name: EMACS_SERVER_FILE
-   - Value: %USERPROFILE%\\.emacs.d\\server\\server
-5. (Optional) To add Emacs to PATH:
-   - Select the *Path* variable under *User variables*, click *Edit*, then *New* and enter %SystemDrive%\\msys64\\mingw64\\bin.
-6. Click *OK* on all windows to save changes.
-7. Restart any open terminals (PowerShell, CMD) for changes to take effect.
+   - Value: =%USERPROFILE%\\.emacs.d\\server\\server=
+5. (Optional) Repeat for any variables from *Section 2* you wish to configure.
+6. (Optional) To add Emacs to PATH:
+   - Select the *Path* variable under *User variables* → *Edit* → *New* → Enter =%SystemDrive%\\msys64\\mingw64\\bin=
+7. Click *OK* on all windows to save.
+8. Restart all terminals (PowerShell, CMD) for changes to take effect.
 
 * Configuring Emacs
 Open `init.org` in Emacs, customize as you wish, and run `org-babel-tangle` to produce `init.el`. This extracts all Emacs Lisp code blocks into `init.el`. Restart Emacs to activate the changes.
