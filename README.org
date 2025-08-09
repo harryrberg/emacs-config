@@ -46,37 +46,39 @@ Why this method?
 - More stable than UCRT64 builds.
 
 ---
-
 * Setting Environment Variables and Updating PATH
-These steps configure Emacs to recognize your home directory, specify the server file location for emacsclient, and optionally add Emacs to your PATH.
+This section explains how to set up environment variables so Emacs can locate your configuration, connect to the server when using emacsclient, and optionally run from any terminal.
 
-** Essential Variables
-- HOME — %USERPROFILE% — Required.
-- EMACS_SERVER_FILE — %USERPROFILE%\\.emacs.d\\server\\server — Required if using emacsclient.
+** 1. Essential Variables
+1. HOME — Points Emacs to your home directory.
+   - Value: %USERPROFILE%
+   - Required: Yes
+2. EMACS_SERVER_FILE — Path to the Emacs server file used by emacsclient.
+   - Value: %USERPROFILE%\\.emacs.d\\server\\server
+   - Required: Yes (if using emacsclient)
 
-** Optional Variables
+** 2. Optional Variables
 - EMACSDIR — Custom .emacs.d location.
-- LANG / LC_ALL — Set locale (e.g., en_US.UTF-8).
+- LANG / LC_ALL — Locale setting (e.g., en_US.UTF-8).
 - EMACSLOADPATH — Additional Lisp search paths.
-- TMPDIR / TEMP / TMP — Custom temp directory.
-- SHELL — Default shell for Emacs (e.g., C:\msys64\usr\bin\bash.exe).
-- PATH — Add C:\msys64\mingw64\bin if you want Emacs in PowerShell or CMD.
+- TMPDIR / TEMP / TMP — Custom temporary directory.
+- SHELL — Default shell for Emacs (e.g., %SystemDrive%\\msys64\\usr\\bin\\bash.exe).
+- PATH — Add %SystemDrive%\\msys64\\mingw64\\bin if you want to run Emacs from PowerShell or CMD.
 
-** To Set Manually in Windows
-1. Right-click *This PC* → *Properties*.
-2. Click *Advanced system settings* → *Environment Variables*.
-3. For each variable above, click *New* (User scope).
-4. For PATH: Select it, click *Edit*, then add a new entry for C:\msys64\mingw64\bin.
-5. Restart PowerShell or CMD after changes.
-
----
-**To set manually in Windows:**
-- Right-click *This PC* → *Properties*.
-- Click *Advanced system settings* → *Environment Variables*.
-- For each variable above, use *New* (User scope).
-- For PATH: Edit, then add a new entry for `C:\msys64\mingw64\bin`.
-
-Restart PowerShell or CMD after changes.
+** 3. Setting Variables Manually in Windows
+These instructions apply to any Windows system:
+1. Open the Start Menu, search for *Environment Variables*, and select *Edit the system environment variables*.
+2. In the *System Properties* window, click *Environment Variables*.
+3. Under *User variables*, click *New* and create:
+   - Name: HOME
+   - Value: %USERPROFILE%
+4. Click *New* again and create:
+   - Name: EMACS_SERVER_FILE
+   - Value: %USERPROFILE%\\.emacs.d\\server\\server
+5. (Optional) To add Emacs to PATH:
+   - Select the *Path* variable under *User variables*, click *Edit*, then *New* and enter %SystemDrive%\\msys64\\mingw64\\bin.
+6. Click *OK* on all windows to save changes.
+7. Restart any open terminals (PowerShell, CMD) for changes to take effect.
 
 * Configuring Emacs
 Open `init.org` in Emacs, customize as you wish, and run `org-babel-tangle` to produce `init.el`. This extracts all Emacs Lisp code blocks into `init.el`. Restart Emacs to activate the changes.
