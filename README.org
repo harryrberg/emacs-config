@@ -84,7 +84,7 @@ These steps work on any Windows 10 or 11 system:
    - Value: =%USERPROFILE%\\.emacs.d\\server\\server=
 5. (Optional) Repeat for any variables from *Section 2* you wish to configure.
 6. (Optional) To add Emacs to PATH:
-   - Select the *Path* variable under *User variables* → *Edit* → *New* → Enter =%SystemDrive%\\msys64\\mingw64\\bin=
+   - Select the *Path* variable under *User variables* → *Edit* → *New* → Enter =%SYSTEMDRIVE%\\msys64\\mingw64\\bin=
 7. Click *OK* on all windows to save.
 8. Restart all terminals (PowerShell, CMD) for changes to take effect.
 
