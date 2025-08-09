@@ -50,40 +50,26 @@ Why this method?
 *Setting Environment Variables and Updating PATH*
 These steps configure Emacs to recognize your home directory, specify the server file location for `emacsclient`, and add Emacs to your PATH.
 
-1. Create the server directory (if missing)
-   #+BEGIN_SRC powershell
-   $serverDir = Join-Path $env:USERPROFILE ".emacs.d\server"
-   New-Item -ItemType Directory -Path $serverDir -Force | Out-Null
-   #+END_SRC
+**Essential Variables:**
+1. `HOME` — `%USERPROFILE%` — Required.
+2. `EMACS_SERVER_FILE` — `%USERPROFILE%\\.emacs.d\\server\\server` — Required if using `emacsclient`.
 
-2. Set HOME (User scope)
-   #+BEGIN_SRC powershell
-   [Environment]::SetEnvironmentVariable('HOME', $env:USERPROFILE, 'User')
-   #+END_SRC
+**Optional Variables:**
+3. `EMACSDIR` — Custom `.emacs.d` location.
+4. `LANG` / `LC_ALL` — Set locale (e.g., `en_US.UTF-8`).
+5. `EMACSLOADPATH` — Additional Lisp search paths.
+6. `TMPDIR` / `TEMP` / `TMP` — Custom temp directory.
+7. `SHELL` — Default shell for Emacs (e.g., `C:\msys64\usr\bin\bash.exe`).
+8. `PATH` — Add `C:\msys64\mingw64\bin` if you want Emacs in PowerShell or CMD.
 
-3. Set EMACS_SERVER_FILE (User scope)
-   #+BEGIN_SRC powershell
-   $serverFile = Join-Path $env:USERPROFILE ".emacs.d\server\server"
-   [Environment]::SetEnvironmentVariable('EMACS_SERVER_FILE', $serverFile, 'User')
-   #+END_SRC
+---
+**To set manually in Windows:**
+- Right-click *This PC* → *Properties*.
+- Click *Advanced system settings* → *Environment Variables*.
+- For each variable above, use *New* (User scope).
+- For PATH: Edit, then add a new entry for `C:\msys64\mingw64\bin`.
 
-4. Add MSYS2 MINGW64 bin to PATH (User scope)
-   #+BEGIN_SRC powershell
-   $msysBin = "C:\\msys64\\mingw64\\bin"
-   $currentPath = [Environment]::GetEnvironmentVariable('Path', 'User')
-   if (-not $currentPath) { $currentPath = '' }
-   if ($currentPath -notmatch [regex]::Escape($msysBin)) {
-       $newPath = if ($currentPath.Trim().Length -gt 0) {
-           $currentPath.TrimEnd(';') + ';' + $msysBin
-       } else {
-           $msysBin
-       }
-       [Environment]::SetEnvironmentVariable('Path', $newPath, 'User')
-   }
-   Write-Output "User PATH updated. Restart terminals to apply changes."
-   #+END_SRC
-
-After running these commands, restart PowerShell or CMD for the changes to take effect.
+Restart PowerShell or CMD after changes.
 
 * Configuring Emacs
 Open `init.org` in Emacs, customize as you wish, and run `org-babel-tangle` to produce `init.el`. This extracts all Emacs Lisp code blocks into `init.el`. Restart Emacs to activate the changes.
