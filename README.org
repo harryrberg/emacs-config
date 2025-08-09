@@ -10,30 +10,30 @@ This guide explains how to install a full-featured Emacs build (GUI + native com
 
 1. Install *MSYS2* from the official site. Choose a short, ASCII-only path like `C:\msys64` to avoid path length issues.
 2. Launch the *MSYS2 MINGW64* terminal (not MSYS or UCRT64). Run:
-   #+BEGIN_SRC bash
-   pacman -Syu
-   #+END_SRC
-   Restart the terminal if prompted and repeat until the system is fully updated.
+#+BEGIN_SRC bash
+pacman -Syu
+#+END_SRC
+Restart the terminal if prompted and repeat until the system is fully updated.
 3. Optional but recommended: Install the native Windows toolchain:
-   #+BEGIN_SRC bash
-   pacman -S --needed base-devel mingw-w64-x86_64-toolchain
-   #+END_SRC
+#+BEGIN_SRC bash
+pacman -S --needed base-devel mingw-w64-x86_64-toolchain
+#+END_SRC
 4. Install Emacs and the native compilation library:
-   #+BEGIN_SRC bash
-   pacman -S mingw-w64-x86_64-emacs mingw-w64-x86_64-libgccjit
-   #+END_SRC
-   This installs Emacs with GUI support and `libgccjit` for native compilation.
+#+BEGIN_SRC bash
+pacman -S mingw-w64-x86_64-emacs mingw-w64-x86_64-libgccjit
+#+END_SRC
+This installs Emacs with GUI support and `libgccjit` for native compilation.
 5. Add `C:\msys64\mingw64\bin` to your Windows PATH (via *System Properties → Environment Variables* or PowerShell).
 6. Verify installation:
-   #+BEGIN_SRC powershell
-   emacs --version
-   #+END_SRC
-   Inside Emacs, evaluate:
-   #+BEGIN_SRC elisp
-   (and (fboundp 'native-comp-available-p)
-        (native-comp-available-p))
-   #+END_SRC
-   A non-nil result confirms native compilation is active.
+#+BEGIN_SRC powershell
+emacs --version
+#+END_SRC
+Inside Emacs, evaluate:
+#+BEGIN_SRC elisp
+(and (fboundp 'native-comp-available-p)
+     (native-comp-available-p))
+#+END_SRC
+A non-nil result confirms native compilation is active.
 
 *Why this method?*
 - Installs directly from MSYS2’s MINGW64 repository — no manual building required.
