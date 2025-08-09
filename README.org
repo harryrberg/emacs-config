@@ -56,6 +56,24 @@ We’ll define some environment variables so Emacs knows where your home directo
    - Value: `%USERPROFILE%\.emacs.d\server\server`  
 5. Save and close all dialogs.
 
+
+---
+
+
+1. Right-click *This PC* (or *Computer*) and select *Properties*.
+2. Click *Advanced system settings* → *Environment Variables*.
+3. Under *User variables*, click *New*:
+   - Name: `HOME`
+   - Value: `%USERPROFILE%`
+4. Click *New* again:
+   - Name: `EMACS_SERVER_FILE`
+   - Value: `%USERPROFILE%\\.emacs.d\\server\\server`
+   This tells Emacs where to store the file used for `emacsclient` connections.
+5. Save and close all dialogs.
+
+
+---
+
 * Configuring Emacs
 Open `init.org` in Emacs, customize as you wish, and run `org-babel-tangle` to produce `init.el`. This extracts all Emacs Lisp code blocks into `init.el`. Restart Emacs to activate the changes.
 
