@@ -60,8 +60,7 @@ This procedure creates a simple Emacs Client shortcut pinned to the taskbar.
    - *-a ""* → Automatically start the server if it is not running.
 3. In the *Start in* field, enter:
    =%USERPROFILE%=
-4. (Optional) Click *Change Icon* to choose an Emacs icon from *runemacs.exe*.
-5. Click *OK* to save changes.
+4. Click *OK* to save changes.
 
 ** 3. Pin to Taskbar
 1. Drag the configured shortcut from the desktop to your taskbar.
